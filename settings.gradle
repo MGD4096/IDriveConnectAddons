@@ -2,6 +2,7 @@ include ':androbd_gestalt'
 include ':androbd_gestalt:AndrOBD-libplugin'
 include ':bimmerscrobbler'
 include ':cds_details'
+include ':aaidrive_ha'
 include ':cds_gauges'
 include ':lib'
 rootProject.name = "IDriveConnectAddons"
