@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data class="io.bimmergestalt.idriveconnectaddons.aaidriveha.authui.ServerConfigBinding">
+        <variable
+            name="controller"
+            type="io.bimmergestalt.idriveconnectaddons.aaidriveha.authui.ServerConfigController" />
+        <variable
+            name="viewModel"
+            type="io.bimmergestalt.idriveconnectaddons.aaidriveha.authui.ServerConfigViewModel" />
+    </data>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="@string/lbl_server_name"
+            android:visibility="@{!viewModel.isAuthorized}"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!--suppress AndroidUnknownAttribute -->
+            <EditText
+                android:id="@+id/txt_instance_url"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="48dp"
+                android:maxLines="1"
+                android:inputType="textUri"
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:hint="https://myinstance.ui.nabu.casa"
+                android:textColorHint="?android:attr/textColorSecondary"
+                android:text="@{viewModel.serverName}"
+                android:onTextChanged="@{(text, start, before, count) -> controller.setServerName(text)}"
+                tools:ignore="HardcodedText">
+            </EditText>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{!viewModel.isAuthorized}">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_check_24"
+                    android:visibility="@{viewModel.isValid() == true}"
+                    android:contentDescription="@string/lbl_server_found" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_close_24"
+                    android:visibility="@{viewModel.isValid() == false}"
+                    android:contentDescription="@string/lbl_server_not_found" />
+            </LinearLayout>
+        </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.emptyServerName}"
+            android:text="@string/lbl_demo"
+            android:onClick="@{() -> controller.useDemo()}"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{!viewModel.isAuthorized &amp;&amp; viewModel.isValid()}"
+            android:text="@string/lbl_login"
+            android:onClick="@{() -> controller.startLogin()}"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.canLogout}"
+            android:text="@string/lbl_logout"
+            android:onClick="@{() -> controller.logout()}"/>
+    </LinearLayout>
+</layout>
