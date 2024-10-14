@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hass Gestalt</title>
+        <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
+        <link rel="icon" type="image/png" href="icon_small.png" />
+        <link rel="redirect_uri" href="io.bimmergestalt.idriveconnectaddons.aaidriveha://oauth_callback" />
+        <style>
+            :root {
+                --accent: #55c1f1;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="h-app">
+            <h1><img src="icon_small.png" class="u-logo" /> <a href="/HassGestalt/" class="u-url p-name">Hass Gestalt</a> <a href="https://github.com/BimmerGestalt/HassGestalt"><img src="GitHub-Mark-Light-64px.png" /></a></h1>
+            <p class="p-summary">Access Home Assistant in BMW/Mini IDrive</p>
+        </div>
+        <p>
+            Most BMWs and Minis from around 2015-2021 implement a protocol that enables a feature named BMW Apps:
+            Selected phone apps can temporarily add themselves to the car and show a car-specific interface for safe interaction.
+            This is most commonly used to control the phone's music apps, but the protocol is much more powerful,
+            and <a href="https://github.com/BimmerGestalt/AAIdrive">AAIdrive</a> has unofficially implemented most of Android Auto's functionality through this protocol.
+        </p>
+        <p>
+            There used to be an official Samsung Smartthings app for the car, providing quick safe access to a subset of home automation through the car's dashboard.
+            Though that app is dead, <a href="https://github.com/BimmerGestalt/HassGestalt">Hass Gestalt</a> reimplements this home automation control by connecting to Home Assistant.
+        </p>
+        <p>
+            HASS Gestalt is under open-source development, please comment on <a href="https://github.com/BimmerGestalt/HassGestalt">Github</a> with any bugs or feature requests!
+        </p>
+        <p>
+            This project does not collect any personal and sensitive user data.
+            It doesn't even have crash any reporting or telemetry.
+            It only stores an access token for the Home Assistant API.
+        </p>
+    </body>
+</html>
