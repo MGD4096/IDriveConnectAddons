@@ -11,10 +11,9 @@ import org.json.JSONException
 
 class ServerConfigPersistence(context: Context, val coroutineScope: CoroutineScope) {
     companion object {
-        const val SHARED_PREFERENCES_NAME = "HassGestaltServerConfig"
+        const val SHARED_PREFERENCES_NAME = "AAIDriveHAServerConfig"
         const val KEY_SERVER_NAME = "ServerName"
         const val KEY_AUTH_STATE = "AuthState"
-        const val KEY_STARRED_DASHBOARDS = "StarredDashboards"
     }
 
     private val sharedPreferences = context.getSharedPreferences(
@@ -36,11 +35,6 @@ class ServerConfigPersistence(context: Context, val coroutineScope: CoroutineSco
             }
         }
         watchStarsJob?.cancel()
-        watchStarsJob = coroutineScope.launch {
-            serverConfig.starredDashboards.debounce(1000).collect {
-                save()
-            }
-        }
     }
 
     fun load() {
@@ -50,11 +44,6 @@ class ServerConfigPersistence(context: Context, val coroutineScope: CoroutineSco
                 AuthState.jsonDeserialize(it)
             } catch (e: JSONException) { null }
         }
-        serverConfig.starredDashboards.value = sharedPreferences.getString(KEY_STARRED_DASHBOARDS, null)?.let {
-            try {
-                JSONArray(it).toList().filterIsInstance<String>()
-            } catch (e: JSONException) { null }
-        } ?: emptyList()
     }
 
     fun save() {
@@ -66,10 +55,6 @@ class ServerConfigPersistence(context: Context, val coroutineScope: CoroutineSco
                     putString(
                         KEY_AUTH_STATE,
                         serverConfig.authState?.jsonSerializeString()
-                    )
-                    putString(
-                        KEY_STARRED_DASHBOARDS,
-                        JSONArray(serverConfig.starredDashboards.value).toString()
                     )
                 }
             }

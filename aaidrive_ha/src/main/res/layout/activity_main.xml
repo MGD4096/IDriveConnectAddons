@@ -27,7 +27,29 @@
         android:name="io.bimmergestalt.idriveconnectaddons.aaidriveha.authui.ServerConfigFragment" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/VinTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="VIN:" />
+		<TextView
+            android:id="@+id/VinValueView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.getVin()}" />
+			
+        <TextView
+            android:id="@+id/ConnectedTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Connected to car:" />
+		<TextView
+            android:id="@+id/ConnectedValueView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.getConnectionStatus()}" />
+
+        <TextView
+            android:id="@+id/DebugView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Debug:" />

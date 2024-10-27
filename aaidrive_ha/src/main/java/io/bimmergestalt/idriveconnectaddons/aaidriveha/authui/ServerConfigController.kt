@@ -4,11 +4,11 @@ import android.net.Uri
 import androidx.lifecycle.LifecycleCoroutineScope
 import io.bimmergestalt.idriveconnectaddons.aaidriveha.OauthAccess
 import io.bimmergestalt.idriveconnectaddons.aaidriveha.data.ServerConfig
-import io.bimmergestalt.idriveconnectaddons.aaidriveha.ha.HaApiDemo
-import io.bimmergestalt.idriveconnectaddons.aaidriveha.ha.HaWsClient
+import io.bimmergestalt.idriveconnectaddons.aaidriveha.ha.HaHttpClient
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.net.URL
 
 class ServerConfigController(val lifecycleScope: LifecycleCoroutineScope, val serverConfig: ServerConfig, val oauthAccess: OauthAccess) {
     private var pendingServerName: String? = serverConfig.serverName
@@ -34,18 +34,9 @@ class ServerConfigController(val lifecycleScope: LifecycleCoroutineScope, val se
             serverConfig.serverName = pendingServerName
 
             if (pendingServerName.isNotBlank()) {
-                if (pendingServerName == HaApiDemo.DEMO_URL) {
-                    serverConfig.isValidServerName.value = true
-                } else {
-                    serverConfig.isValidServerName.value = HaWsClient.testUri(HaWsClient.parseUri(pendingServerName))
-                }
+                serverConfig.isValidServerName.value = HaHttpClient.testUri(HaHttpClient.parseUri(pendingServerName,""), serverConfig)
             }
         }
-    }
-
-    fun useDemo() {
-        serverConfig.serverName = HaApiDemo.DEMO_URL
-        serverConfig.authState = null
     }
 
     fun startLogin() {

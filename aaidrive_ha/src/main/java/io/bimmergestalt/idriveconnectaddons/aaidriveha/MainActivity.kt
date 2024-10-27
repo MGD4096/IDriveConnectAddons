@@ -1,11 +1,21 @@
 package io.bimmergestalt.idriveconnectaddons.aaidriveha
 
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.databinding.ObservableList
+import io.bimmergestalt.idriveconnectaddons.aaidriveha.data.ServerConfig
 import io.bimmergestalt.idriveconnectaddons.aaidriveha.databinding.ActivityMainBinding
+import io.bimmergestalt.idriveconnectaddons.aaidriveha.ha.HaHttpClient
+import io.bimmergestalt.idriveconnectkit.android.CDSLiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 	val mainModel by viewModels<MainModel>()
