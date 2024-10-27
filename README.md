@@ -11,7 +11,7 @@ A [LiveData subclass](lib/src/main/java/me/hufman/idriveconnectaddons/lib/CDSLiv
 Built on top of this easy CDS access, a few example apps have been provided to inspire other apps:
 
 - [androbd_gestalt](androbd_gestalt) provides CDS data to be viewed and recorded in [AndrOBD](https://github.com/fr3ts0n/AndrOBD)
-- [aaidrive](aaidrive_ha) provides CDS data to be viewed in Home Assistant
+- [aaidrive_ha](aaidrive_ha) provides CDS data to be viewed in Home Assistant
 - [bimmerscrobbler](bimmerscrobbler) watches the car's Multimedia information and announces any currently playing music to Simple Last.FM Scrobbler. Currently, this seems to provide the Bluetooth and USB music metadata, but unfortunately not Radio information.
 - [cds_details](cds_details) provides a list of every single CDS data point provided by the car, with live-updating values.
 - [cds_gauges](cds_gauges) provides a few needle gauges to represent a few select data points from the car.
