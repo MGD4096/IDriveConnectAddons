@@ -121,7 +121,7 @@ class PropertyObserver(private val haClient: HaHttpClient): Observer<Map<String,
 
 		if(limitedRefreshProperty.containsKey(key) && limitedRefreshProperty[key]?.plus(1,
 				DateTimeUnit.MINUTE)!! >Clock.System.now()){
-			return false;
+			return true;
 		}
 		if(!flag && update){
 			previousValue[key] = value[key].toString();
