@@ -124,6 +124,7 @@ class PropertyObserver(private val haClient: HaHttpClient): Observer<Map<String,
 			return true;
 		}
 		if(!flag && update){
+			limitedRefreshProperty[key] = Clock.System.now();
 			previousValue[key] = value[key].toString();
 		}
 		return flag;
@@ -166,7 +167,7 @@ class PropertyObserver(private val haClient: HaHttpClient): Observer<Map<String,
 					Mode = "Comfort"
 				}
 				else if(driveMode == 3){
-					Mode = "Basic"
+					Mode = "Comfort"
 				}
 				else if(driveMode == 4){
 					Mode = "Sport"
@@ -203,10 +204,10 @@ class PropertyObserver(private val haClient: HaHttpClient): Observer<Map<String,
 				&& value.containsKey("tanklevel")
 				&& !SameAsPreviousValue("range",value, false)
 				&& !SameAsPreviousValue("tanklevel",value, false)){
-				if(!SameAsPreviousValue("range",value))
-					callApi(VIN as String,"fuel_range", value["range"].toString())
-				if(!SameAsPreviousValue("tanklevel",value))
-					callApi(VIN as String,"fuel_level", value["tanklevel"].toString())
+					if(!SameAsPreviousValue("range",value))
+						callApi(VIN as String,"fuel_range", value["range"].toString())
+					if(!SameAsPreviousValue("tanklevel",value))
+						callApi(VIN as String,"fuel_level", value["tanklevel"].toString())
 			}
 			if(value.containsKey("ecoRange") && !SameAsPreviousValue("ecoRange",value)){
 				callApi(VIN as String,"fuel_eco_range", value["ecoRange"].toString())
@@ -218,10 +219,10 @@ class PropertyObserver(private val haClient: HaHttpClient): Observer<Map<String,
 				&& value.containsKey("averageSpeed2")
 				&& !SameAsPreviousValue("averageSpeed1",value,false)
 				&& !SameAsPreviousValue("averageSpeed2",value,false)){
-				if(!SameAsPreviousValue("averageSpeed1",value))
-					callApi(VIN as String,"average_speed_1", ToEntityStateString(value["averageSpeed1"].toString()+"km/h"))
-				if(!SameAsPreviousValue("averageSpeed2",value))
-					callApi(VIN as String,"average_speed_2", ToEntityStateString(value["averageSpeed2"].toString()+"km/h"))
+					if(!SameAsPreviousValue("averageSpeed1",value))
+						callApi(VIN as String,"average_speed_1", ToEntityStateString(value["averageSpeed1"].toString()+" km/h"))
+					if(!SameAsPreviousValue("averageSpeed2",value))
+						callApi(VIN as String,"average_speed_2", ToEntityStateString(value["averageSpeed2"].toString()+" km/h"))
 			}
 			if(value.containsKey("driver")
 				&& value.containsKey("driverRear")
@@ -231,41 +232,41 @@ class PropertyObserver(private val haClient: HaHttpClient): Observer<Map<String,
 				&& !SameAsPreviousValue("passenger",value,false)
 				&& !SameAsPreviousValue("driverRear",value,false)
 				&& !SameAsPreviousValue("passengerRear",value,false)){
-				if(!SameAsPreviousValue("driver",value))
-					callApi(VIN as String,"driver_door", ToEntityStateString(GetDoorStatus(value["driver"] as? Int?: 0 )))
-				if(!SameAsPreviousValue("passengerRear",value))
-					callApi(VIN as String,"passenger_rear_door", ToEntityStateString(GetDoorStatus(value["passengerRear"] as? Int?: 0)))
-				if(!SameAsPreviousValue("passenger",value))
-					callApi(VIN as String,"passenger_door", ToEntityStateString(GetDoorStatus(value["passenger"] as? Int?: 0 )))
-				if(!SameAsPreviousValue("driverRear",value))
-					callApi(VIN as String,"driver_rear_door", ToEntityStateString(GetDoorStatus(value["driverRear"] as? Int?: 0 )))
+					if(!SameAsPreviousValue("driver",value))
+						callApi(VIN as String,"driver_door", ToEntityStateString(GetDoorStatus(value["driver"] as? Int?: 0 )))
+					if(!SameAsPreviousValue("passengerRear",value))
+						callApi(VIN as String,"passenger_rear_door", ToEntityStateString(GetDoorStatus(value["passengerRear"] as? Int?: 0)))
+					if(!SameAsPreviousValue("passenger",value))
+						callApi(VIN as String,"passenger_door", ToEntityStateString(GetDoorStatus(value["passenger"] as? Int?: 0 )))
+					if(!SameAsPreviousValue("driverRear",value))
+						callApi(VIN as String,"driver_rear_door", ToEntityStateString(GetDoorStatus(value["driverRear"] as? Int?: 0 )))
 			}
 			if(value.containsKey("averageConsumption1")
 				&& value.containsKey("averageConsumption2")
 				&& !SameAsPreviousValue("averageConsumption1",value,false)
 				&& !SameAsPreviousValue("averageConsumption2",value,false)){
-				if(!SameAsPreviousValue("averageConsumption1",value))
-					callApi(VIN as String,"average_consumption_1", ToEntityStateString(value["averageConsumption1"].toString()+"l/100km"))
-				if(!SameAsPreviousValue("averageConsumption2",value))
-					callApi(VIN as String,"average_consumption_2", ToEntityStateString(value["averageConsumption2"].toString()+"l/100km"))
+					if(!SameAsPreviousValue("averageConsumption1",value))
+						callApi(VIN as String,"average_consumption_1", ToEntityStateString(value["averageConsumption1"].toString()+" l/100km"))
+					if(!SameAsPreviousValue("averageConsumption2",value))
+						callApi(VIN as String,"average_consumption_2", ToEntityStateString(value["averageConsumption2"].toString()+" l/100km"))
 			}
 			if(value.containsKey("latitude")
 				&& value.containsKey("longitude")
 				&& !SameAsPreviousValue("latitude",value)
 				&& !SameAsPreviousValue("longitude",value)){
-				val attr = """,
-					"attributes":{
-						"source_type":"gps",
-						"latitude": """+ToEntityStateString(value["latitude"].toString())+""",
-						"longitude": """+ToEntityStateString(value["longitude"].toString())+""",
-						"gps_accuracy": 150,
-						"altitude": 0,
-						"course": 0,
-						"vertical_accuracy": 0,
-						"speed": 0
-					}
-				""".trimMargin()
-				callApi(VIN as String,"vehicle_position",ToEntityStateString("Location"), attr)
+					val attr = """,
+						"attributes":{
+							"source_type":"gps",
+							"latitude": """+ToEntityStateString(value["latitude"].toString())+""",
+							"longitude": """+ToEntityStateString(value["longitude"].toString())+""",
+							"gps_accuracy": 150,
+							"altitude": 0,
+							"course": 0,
+							"vertical_accuracy": 0,
+							"speed": 0
+						}
+					""".trimMargin()
+					callApi(VIN as String,"vehicle_position",ToEntityStateString("Location"), attr)
 			}
 		}
 	}
